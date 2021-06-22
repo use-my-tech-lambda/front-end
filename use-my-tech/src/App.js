@@ -4,22 +4,26 @@ import { Switch, Link, Route, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import Login from './Login'
 import Home from './Home'
-import Cards from './Cards'
+import Rent from './Rent'
+import MyItems from './MyItems'
+import axios from 'axios'
+
 
 
 function App() {
+
   return (
     <div className="App">
       <header>
-        <NavLink to='/cards'>
+        <NavLink to='/rent'>
           <button>Rent</button>
         </NavLink>
-        <NavLink to='/cards'>
-          <button>Rent Out</button>
+        <NavLink to='/my-items'>
+          <button>My Items</button>
         </NavLink>
-        <NavLink to='/cards'>
+        {/* <NavLink to='/cards'>
           <button>Currently Rented Out</button>
-        </NavLink>
+        </NavLink> */}
         <NavLink to='/login'>
         <button>Login</button>
       </NavLink>
@@ -29,8 +33,11 @@ function App() {
         <Route path='/login'>
           <Login/>
         </Route>
-        <Route path='/cards'>
-          <Cards/>
+        <Route path='/rent'>
+          <Rent/>
+        </Route>
+        <Route path='/my-items'>
+          <MyItems/>
         </Route>
         <Route path='/'>
           <Home/>
