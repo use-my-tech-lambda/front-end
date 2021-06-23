@@ -6,15 +6,15 @@ import axiosWithAuth from './Utilities/AxiosAuth';
 //creates "cards" of each of the items received with product name, price, description, image, location, owner name, (reviews?),
 //display an action depending on which of three buttons they clicked, for example a button to say "book now" or edit item
 export default function Cards (props) {
-
-    const [items, setItems] = useState([])
+const { allItems, setAllItems } = props;
+    
 
     useEffect(() => {
         axiosWithAuth()
         .get('/api/items')
         .then(res => {
             console.log(res.data)
-            setItems(res.data)
+            setAllItems(res.data)
         })
         .catch(err => {
             console.log(err);
@@ -24,7 +24,7 @@ export default function Cards (props) {
     return (
         <div> 
             <h2>Rent Some Electronics</h2>
-            {items.map (item => (
+            {allItems.map (item => (
                 <div
                 key={item.item_id}
                 >

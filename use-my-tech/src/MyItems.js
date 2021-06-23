@@ -14,11 +14,11 @@ import axiosWithAuth from './Utilities/AxiosAuth';
 //Schedule
 
 export default function Cards (props) {
-
     const [items, setItems] = useState([])
+    const { setAllItems, allItems } = props;
     const user_id = localStorage.getItem('user_id')
 
-    useEffect(() => {
+   useEffect(() => {
         axiosWithAuth()
         .get(`/api/users/${user_id}/items`)
         .then(res => {
@@ -28,11 +28,24 @@ export default function Cards (props) {
         .catch(err => {
             console.log(err);
       })
-    }, [])
+    }, []) 
+
+    const rentNow = (e) => {
+        axiosWithAuth()
+        .post(`/api/items/user/${user_id}`, {item_name: "testtesttest", item_price: "25", item_category: "camera", item_location: "springville"})
+        .then(res => {
+            setItems([res, ...items])
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        // setAllItems([, ...allItems])
+    }
 
     return (
         <div> 
             <h2>{user_id}</h2>
+            <button onClick={rentNow}>+ List new Item</button>
             {items.map (item => (
                 <div
                 key={item.item_id}
@@ -47,6 +60,7 @@ export default function Cards (props) {
                 <p>{item.item_category}</p>
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
+                
                 </div>
             ))}
         </div>
