@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react'
-import { Switch, Link, Route, NavLink } from 'react-router-dom'
+import { Switch, Link, Route, NavLink, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import Login from './Login'
 import Home from './Home'
@@ -8,10 +8,21 @@ import Rent from './Rent'
 import MyItems from './MyItems'
 import axios from 'axios'
 
+const initialRegistered = true
 
 
 function App() {
+  const [isRegistered, setIsRegistered] = useState(initialRegistered)
+  const [loggedIn, setLoggedIn] = useState(false)
+  const history = useHistory();
 
+
+  const logout = () =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id')
+    setLoggedIn(false)
+    history.push('/')
+  }
   return (
     <div className="App">
       <header>
@@ -25,13 +36,13 @@ function App() {
           <button>Currently Rented Out</button>
         </NavLink> */}
         <NavLink to='/login'>
-        <button>Login</button>
+        {!loggedIn ? <button>Login</button> : <button onClick={logout}>Logout</button>}
       </NavLink>
       </header>
 
       <Switch>
         <Route path='/login'>
-          <Login/>
+          <Login isRegistered={isRegistered} setIsRegistered={setIsRegistered} setLoggedIn={setLoggedIn}/>
         </Route>
         <Route path='/rent'>
           <Rent/>
