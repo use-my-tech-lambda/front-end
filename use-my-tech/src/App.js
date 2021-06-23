@@ -13,7 +13,7 @@ const initialRegistered = true
 
 function App() {
   const [isRegistered, setIsRegistered] = useState(initialRegistered)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token'))
   const [allItems, setAllItems] = useState([])
   const history = useHistory();
 
