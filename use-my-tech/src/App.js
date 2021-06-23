@@ -14,6 +14,7 @@ const initialRegistered = true
 function App() {
   const [isRegistered, setIsRegistered] = useState(initialRegistered)
   const [loggedIn, setLoggedIn] = useState(false)
+  const [allItems, setAllItems] = useState([])
   const history = useHistory();
 
 
@@ -45,10 +46,10 @@ function App() {
           <Login isRegistered={isRegistered} setIsRegistered={setIsRegistered} setLoggedIn={setLoggedIn}/>
         </Route>
         <Route path='/rent'>
-          <Rent/>
+          <Rent allItems={allItems} setAllItems={setAllItems}/>
         </Route>
         <Route path='/my-items'>
-          <MyItems/>
+          <MyItems setAllItems={setAllItems} allItems={allItems}/>
         </Route>
         <Route path='/'>
           <Home/>
