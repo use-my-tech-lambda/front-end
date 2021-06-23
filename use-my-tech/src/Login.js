@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ const initialValues = {
     email: ""
 }
 
-const initialRegistered = false
+const initialRegistered = true
 
 export default function Login (props) {
     // const history = useHistory();
@@ -20,8 +21,18 @@ export default function Login (props) {
 
     const onSubmit = evt => {
         evt.preventDefault()
+        axios.post('https://ft-backend-use-my-tech.herokuapp.com/api/users/login', {username: values.username, password: values.password})
+            .then(res => {
+                console.log(res)
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('user_id', res.data.user_id)
+                // history.push('/rent')
+            })
+            .catch(err => {
+                console.log(err)
+            })
         //submit username and pwd to database and if authenticated, store token in localstorage and push to either /home or /cards.
-        // history.push('/')
+        
     }
 
     const handleRegChange = () => {
