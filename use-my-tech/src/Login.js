@@ -11,7 +11,10 @@ const initialValues = {
 
 const initialRegistered = true
 
-const 
+const LoginPage = styled.div`
+    
+
+`
 
 export default function Login (props) {
     // const history = useHistory();
