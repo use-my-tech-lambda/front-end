@@ -12,7 +12,7 @@ const initialValues = {
 
 
 const LoginPage = styled.div`
-    
+    border:1px solid red;
 
 `
 
@@ -101,7 +101,6 @@ export default function Login (props) {
                 <button>Submit</button>
 
             </form>
-
         </div>
     )
 }
