@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
+import styled from 'styled-components'
 
 const initialValues = {
     username: "",
@@ -9,6 +10,8 @@ const initialValues = {
 }
 
 const initialRegistered = true
+
+const 
 
 export default function Login (props) {
     // const history = useHistory();
@@ -40,7 +43,8 @@ export default function Login (props) {
     }
 
     return(
-        <div> Login Page
+        <div> 
+            <h1>Login</h1>
             <form onSubmit={onSubmit}>
                 <label>Username
                     <input
