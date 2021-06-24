@@ -81,7 +81,7 @@ export default function Login (props) {
                         value={values.password}
                         onChange={onChange}
                         name='password'
-                        type='text'
+                        type='password'
                     />
                 </label>
 
