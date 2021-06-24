@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const initialValues = {
     username: "",
@@ -12,7 +12,40 @@ const initialValues = {
 const initialRegistered = true
 
 const LoginPage = styled.div`
-    
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
+
+        h1, h2, h3, label {
+            font-family: 'Roboto', 'sans-serif';
+
+        }
+
+        p {
+            font-family: 'Source Serif Pro', 'serif';
+        }
+
+        form, input, div {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            padding:8px;
+            margin: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: ${props => props.theme.contrast};
+            color: ${props => props.theme.grey};
+        }
+
+        display: flex column;
+        justify-content: center;
+        padding: 8px;
+        margin: 8px;
+        width: 90%;
+
 
 `
 
@@ -46,35 +79,37 @@ export default function Login (props) {
     }
 
     return(
+        <LoginPage>
+
         <div> 
             <h1>Login</h1>
             <form onSubmit={onSubmit}>
-                <label>Username
+                <label>Username 
                     <input
                         value={values.username}
                         onChange={onChange}
                         name='username'
                         type='text'
-                    />
+                        />
                 </label>
-                <label>Password
+                <label>Password 
                     <input 
                         value={values.password}
                         onChange={onChange}
                         name='password'
                         type='text'
-                    />
+                        />
                 </label>
 
                 {isRegistered === false ?           
                 <div>
-                <label>Email
+                <label>Email 
                     <input 
                         value={values.email}
                         onChange={onChange}
                         name='email'
                         type='email'
-                    />
+                        />
                 </label>
                 <h3 onClick={handleRegChange}>Already have an account? Login</h3> 
                 </div>: <h3 onClick={handleRegChange}>Create an Account</h3>}
@@ -84,5 +119,6 @@ export default function Login (props) {
             </form>
 
         </div>
+        </LoginPage>
     )
 }
