@@ -29,6 +29,7 @@ header {
   margin: 2px;
   background-color: #f5f2ed;
   opacity: 60%;
+  align-items: center;
 }
 
 .links {

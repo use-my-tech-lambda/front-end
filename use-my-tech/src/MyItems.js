@@ -18,7 +18,7 @@ import ItemForm from './AddItemForm';
 //Schedule
 
 const Card = styled.div `
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
 
     h1, h2, h3, h4, label {
         font-family: 'Roboto', 'sans-serif';
@@ -38,8 +38,32 @@ const Card = styled.div `
         border-radius: 5px;
     }
 
-`
+    form, input, div {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            padding:8px;
+            margin: 8px;
+        }
 
+    .list {
+        width: 100%;
+        padding: 8px;
+        margin: 10px;
+        border-radius: 5.5px;
+        background: #2f3357;
+        border-color: #2f3357;
+        color: white;
+            &:hover {
+                transform: scale(1.1);
+                background-color: #f43f5e;
+                border-color: #f43f5e;
+    }
+
+}
+
+`
 
 export default function MyItems (props) {
     const [items, setItems] = useState([])
@@ -97,30 +121,24 @@ export default function MyItems (props) {
         })
     }
 
-    const Cardmaker = styled.div`
-        border:1px solid blue;
-        margin:1%;
-    `
 
     return (
-
         <Card>
             <h2>My Items</h2>
-       
-            <h2>{user_id}</h2>
-            <button onClick={rentNow}>+ List new Item</button>
 
         <div> 
+           
+            <h3>List a New Item</h3>
             <ItemForm editing={editing} setEditing={setEditing} setItems={setItems} items={items} user_id={user_id}/>
-            
-            
+           
+            <h3>My Existing Items</h3>
 
             {items.map (item => (
-            <div
+                <div
                 key={item.item_id}
-
+                
                 className='item'>
-                >
+                
                   
                 {item.item_image? <img
                 src={item.item_image}
@@ -134,15 +152,15 @@ export default function MyItems (props) {
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
 
-                <button onClick={editItem} value={item.item_id}>Edit Item</button>
-                <button onClick={handleEdit} value={item.item_id}>Edit Item</button>
-                <button onClick={deleteItem} value={item.item_id}>Delete Item</button>
+                <button className='list' onClick={editItem} value={item.item_id}>Edit Item</button>
+                <button className='list' onClick={handleEdit} value={item.item_id}>Edit Item</button>
+                <button className='list' onClick={deleteItem} value={item.item_id}>Delete Item</button>
               </div>
               
-
-            ))}
-      
-      </Card>
+            
+              ))}
+        </div>
+              </Card>
     )
 
     }
