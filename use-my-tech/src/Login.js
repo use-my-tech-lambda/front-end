@@ -121,14 +121,14 @@ export default function Login (props) {
                         placeholder='Electronics_Lover'
                         />
                 </label>
-                <label>Password 
+                <label> Password 
                     <input 
                         value={values.password}
                         onChange={onChange}
                         name='password'
-                        type='text'
                         placeholder= '********'
-                        />
+                        type='password'
+                    />
                 </label>
 
                 {isRegistered === false ?           

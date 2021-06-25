@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import axiosWithAuth from './Utilities/AxiosAuth';
 import styled from 'styled-components';
+import ItemForm from './AddItemForm';
+// import EditItemForm from './EditItemForm';
+
 
 //receives an array of objects through props (changes based on which of the three buttons they click for rent, rent out, currently renting)
 //creates "cards" of each of the items received with product name, price, description, image, location, owner name, (reviews?),
@@ -40,7 +43,9 @@ const Card = styled.div `
 
 export default function MyItems (props) {
     const [items, setItems] = useState([])
-    const [editing, setEditing] = useState(true)
+    const [editing, setEditing] = useState(null)
+    const [editFormValue, setEditFormValue] = useState()
+
     const { setAllItems, allItems } = props;
     const user_id = localStorage.getItem('user_id')
 
@@ -56,28 +61,36 @@ export default function MyItems (props) {
       })
     }, []) 
 
-    const rentNow = (e) => {
-        axiosWithAuth()
-        .post(`/api/items/user/${user_id}`, {item_name: "newtest", item_price: "25", item_category: "camera", item_location: "springville"})
-        .then(res => {
-            console.log(res)
-            setItems([res.data, ...items])
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    const handleEdit = (e) => {
+        setEditing(e.target.value)
+        
     }
-
+    
     const editItem = (e) => {
-        const index = items.findIndex(x => x.item_id == e.target.value)
         axiosWithAuth()
         .put(`/api/items/${user_id}/${e.target.value}`, {item_name: "newtest", item_price: "25", item_category: "camera", item_location: "mapleton"} )
         .then(res =>{
+            const index = items.findIndex(x => x.item_id == e.target.value)
             const newArray = [...items]
             newArray[index] = res.data
             setItems(newArray)
             // setEditing(false)
             // need to edit the correct object in the array with the res of the put
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    
+
+    const deleteItem = (e) => {
+        axiosWithAuth()
+        .delete(`/api/items/${user_id}/${e.target.value}`)
+        .then(res =>{
+            const index = items.findIndex(x => x.item_id == e.target.value);
+            const arrayAfterRemovingItem = [...items];
+            arrayAfterRemovingItem.splice(index, 1);
+            setItems(arrayAfterRemovingItem);
         })
         .catch(err => {
             console.log(err)
@@ -90,27 +103,43 @@ export default function MyItems (props) {
     `
 
     return (
+
         <Card>
             <h2>My Items</h2>
        
             <h2>{user_id}</h2>
             <button onClick={rentNow}>+ List new Item</button>
+
+        <div> 
+            <ItemForm editing={editing} setEditing={setEditing} setItems={setItems} items={items} user_id={user_id}/>
+            
+            
+
             {items.map (item => (
             <div
                 key={item.item_id}
+
                 className='item'>
-                <img
-                    src={item.item_image}
-                    alt={item.item_name}
-                />
+                >
+                  
+                {item.item_image? <img
+                src={item.item_image}
+                alt={item.item_name}
+                /> : null}
+
                 <h4>{item.item_name}</h4>
                 <p>{item.item_description}</p>
                 <p>{item.item_price}</p>
                 <p>{item.item_category}</p>
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
+
                 <button onClick={editItem} value={item.item_id}>Edit Item</button>
-            </div>
+                <button onClick={handleEdit} value={item.item_id}>Edit Item</button>
+                <button onClick={deleteItem} value={item.item_id}>Delete Item</button>
+              </div>
+              
+
             ))}
       
       </Card>
