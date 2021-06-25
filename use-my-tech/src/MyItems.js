@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import axiosWithAuth from './Utilities/AxiosAuth';
+import styled from 'styled-components';
 
 //receives an array of objects through props (changes based on which of the three buttons they click for rent, rent out, currently renting)
 //creates "cards" of each of the items received with product name, price, description, image, location, owner name, (reviews?),
@@ -12,6 +13,29 @@ import axiosWithAuth from './Utilities/AxiosAuth';
 //Reviews
 //Payments
 //Schedule
+
+const Card = styled.div `
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
+
+    h1, h2, h3, h4, label {
+        font-family: 'Roboto', 'sans-serif';
+
+    }
+
+    p {
+        font-family: 'Source Serif Pro', 'serif';
+    }
+
+    img{
+        border-width: 2px;
+        border-color: #f5f2ed;
+    }
+    .item {
+        border-color: #2f3357;
+        border-radius: 5px;
+    }
+
+`
 
 export default function Cards (props) {
 
@@ -31,12 +55,12 @@ export default function Cards (props) {
     }, [])
 
     return (
-        <div> 
-            <h2>{user_id}</h2>
+        <Card>
+            <h2>My Items</h2>
             {items.map (item => (
                 <div
                 key={item.item_id}
-                >
+                className='item'>
                 <img
                 src={item.item_image}
                 alt={item.item_name}
@@ -49,6 +73,6 @@ export default function Cards (props) {
                 <p>{item.item_owner}</p>
                 </div>
             ))}
-        </div>
+        </Card>
     )
     }

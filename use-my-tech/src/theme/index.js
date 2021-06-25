@@ -1,6 +1,5 @@
 //theme
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     primary: '#2a2e40',
     secondary: '#2f3357',

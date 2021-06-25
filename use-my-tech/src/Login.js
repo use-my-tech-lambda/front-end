@@ -14,7 +14,7 @@ const initialRegistered = true
 const LoginPage = styled.div`
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
 
-        h1, h2, h3, label {
+        h1, h2, h3, h4, label {
             font-family: 'Roboto', 'sans-serif';
 
         }
@@ -32,12 +32,19 @@ const LoginPage = styled.div`
             margin: 8px;
         }
 
-        button {
+        
+        .submit {
             width: 100%;
             padding: 8px;
-            border-radius: 4px;
-            background-color: ${props => props.theme.contrast};
-            color: ${props => props.theme.grey};
+            border-radius: 5.5px;
+            background: #2f3357;
+            border-color: #2f3357;
+            color: white;
+            &:hover {
+                transform: scale(1.1);
+                background-color: #f43f5e;
+                border-color: #f43f5e;
+    }
         }
 
         display: flex column;
@@ -45,6 +52,7 @@ const LoginPage = styled.div`
         padding: 8px;
         margin: 8px;
         width: 90%;
+        height: 100%;
 
 
 `
@@ -90,6 +98,7 @@ export default function Login (props) {
                         onChange={onChange}
                         name='username'
                         type='text'
+                        placeholder='Electronics_Lover'
                         />
                 </label>
                 <label>Password 
@@ -98,6 +107,7 @@ export default function Login (props) {
                         onChange={onChange}
                         name='password'
                         type='text'
+                        placeholder= '********'
                         />
                 </label>
 
@@ -109,13 +119,15 @@ export default function Login (props) {
                         onChange={onChange}
                         name='email'
                         type='email'
+                        placeholder='ilove@electronics.com'
                         />
                 </label>
-                <h3 onClick={handleRegChange}>Already have an account? Login</h3> 
-                </div>: <h3 onClick={handleRegChange}>Create an Account</h3>}
 
-                <button>Submit</button>
+                <h4 onClick={handleRegChange}>Already have an account? Login</h4> 
+                </div>: <h4 onClick={handleRegChange}>Create an Account</h4>}
 
+                <button className="submit">Submit</button>
+                
             </form>
 
         </div>
