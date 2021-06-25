@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react'
-import { Switch, Link, Route, NavLink } from 'react-router-dom'
+import { Switch, Link, Route, NavLink, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import Login from './Login'
 import Home from './Home'
@@ -10,6 +10,7 @@ import axios from 'axios'
 
 const NavBar = styled.div `
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
+
 
 h1, h2, h3, h4, label {
             font-family: 'Roboto', 'sans-serif';
@@ -42,9 +43,21 @@ header {
 }
 
 `
+const initialRegistered = true
 
 function App() {
+  const [isRegistered, setIsRegistered] = useState(initialRegistered)
+  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token'))
+  const [allItems, setAllItems] = useState([])
+  const history = useHistory();
 
+
+  const logout = () =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id')
+    setLoggedIn(false)
+    history.push('/')
+  }
   return (
       <NavBar>
     <div className="App">
@@ -62,20 +75,20 @@ function App() {
         </div>
         <div>
         <NavLink to='/login'>
-        <button className='links'>Login</button>
+        {!loggedIn ? <button className='links'>Login</button> : <button className='links' onClick={logout}>Logout</button>}
       </NavLink>
         </div>
       </header>
 
       <Switch>
         <Route path='/login'>
-          <Login/>
+          <Login isRegistered={isRegistered} setIsRegistered={setIsRegistered} setLoggedIn={setLoggedIn}/>
         </Route>
         <Route path='/rent'>
-          <Rent/>
+          <Rent allItems={allItems} setAllItems={setAllItems}/>
         </Route>
         <Route path='/my-items'>
-          <MyItems/>
+          <MyItems setAllItems={setAllItems} allItems={allItems}/>
         </Route>
         <Route path='/'>
           <Home/>

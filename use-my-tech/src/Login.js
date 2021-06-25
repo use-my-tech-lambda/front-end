@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
     username: "",
@@ -9,7 +10,7 @@ const initialValues = {
     email: ""
 }
 
-const initialRegistered = true
+
 
 const LoginPage = styled.div`
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
@@ -58,9 +59,11 @@ const LoginPage = styled.div`
 `
 
 export default function Login (props) {
-    // const history = useHistory();
     const [values, setValues] = useState(initialValues)
-    const [isRegistered, setIsRegistered] = useState(initialRegistered)
+    const {isRegistered, setIsRegistered, setLoggedIn } = props;
+    const history = useHistory();
+
+    
 
     const onChange = evt => {
         setValues({...values, [evt.target.name]: evt.target.value})
@@ -68,16 +71,33 @@ export default function Login (props) {
 
     const onSubmit = evt => {
         evt.preventDefault()
-        axios.post('https://ft-backend-use-my-tech.herokuapp.com/api/users/login', {username: values.username, password: values.password})
-            .then(res => {
-                console.log(res)
-                localStorage.setItem('token', res.data.token)
-                localStorage.setItem('user_id', res.data.user_id)
-                // history.push('/rent')
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        if(isRegistered === true){
+            axios.post('https://ft-backend-use-my-tech.herokuapp.com/api/users/login', {username: values.username, password: values.password})
+                .then(res => {
+                    console.log(res)
+                    localStorage.setItem('token', res.data.token)
+                    localStorage.setItem('user_id', res.data.user_id)
+                    setLoggedIn(true)
+                    history.push('/rent')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
+        else{
+            axios.post('https://ft-backend-use-my-tech.herokuapp.com/api/users/register', {username: values.username, password: values.password, email: values.email})
+                .then(res => {
+                    console.log(res)
+                    // localStorage.setItem('token', res.data.token)
+                    // localStorage.setItem('user_id', res.data.user_id)
+                    // history.push('/rent')
+                    setValues(initialValues)
+                    setIsRegistered(!isRegistered);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
         //submit username and pwd to database and if authenticated, store token in localstorage and push to either /home or /cards.
         
     }
@@ -129,7 +149,6 @@ export default function Login (props) {
                 <button className="submit">Submit</button>
                 
             </form>
-
         </div>
         </LoginPage>
     )

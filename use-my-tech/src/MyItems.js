@@ -37,12 +37,14 @@ const Card = styled.div `
 
 `
 
-export default function Cards (props) {
 
+export default function MyItems (props) {
     const [items, setItems] = useState([])
+    const [editing, setEditing] = useState(true)
+    const { setAllItems, allItems } = props;
     const user_id = localStorage.getItem('user_id')
 
-    useEffect(() => {
+   useEffect(() => {
         axiosWithAuth()
         .get(`/api/users/${user_id}/items`)
         .then(res => {
@@ -52,18 +54,54 @@ export default function Cards (props) {
         .catch(err => {
             console.log(err);
       })
-    }, [])
+    }, []) 
+
+    const rentNow = (e) => {
+        axiosWithAuth()
+        .post(`/api/items/user/${user_id}`, {item_name: "newtest", item_price: "25", item_category: "camera", item_location: "springville"})
+        .then(res => {
+            console.log(res)
+            setItems([res.data, ...items])
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const editItem = (e) => {
+        const index = items.findIndex(x => x.item_id == e.target.value)
+        axiosWithAuth()
+        .put(`/api/items/${user_id}/${e.target.value}`, {item_name: "newtest", item_price: "25", item_category: "camera", item_location: "mapleton"} )
+        .then(res =>{
+            const newArray = [...items]
+            newArray[index] = res.data
+            setItems(newArray)
+            // setEditing(false)
+            // need to edit the correct object in the array with the res of the put
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    const Cardmaker = styled.div`
+        border:1px solid blue;
+        margin:1%;
+    `
 
     return (
         <Card>
             <h2>My Items</h2>
+       
+            <h2>{user_id}</h2>
+            <button onClick={rentNow}>+ List new Item</button>
             {items.map (item => (
-                <div
+            <div
                 key={item.item_id}
                 className='item'>
                 <img
-                src={item.item_image}
-                alt={item.item_name}
+                    src={item.item_image}
+                    alt={item.item_name}
                 />
                 <h4>{item.item_name}</h4>
                 <p>{item.item_description}</p>
@@ -71,8 +109,11 @@ export default function Cards (props) {
                 <p>{item.item_category}</p>
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
-                </div>
+                <button onClick={editItem} value={item.item_id}>Edit Item</button>
+            </div>
             ))}
-        </Card>
+      
+      </Card>
     )
+
     }
