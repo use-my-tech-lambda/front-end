@@ -3,6 +3,7 @@ import axios from 'axios';
 import axiosWithAuth from './Utilities/AxiosAuth';
 import styled from "styled-components";
 import ItemForm from './AddItemForm';
+// import EditItemForm from './EditItemForm';
 
 //receives an array of objects through props (changes based on which of the three buttons they click for rent, rent out, currently renting)
 //creates "cards" of each of the items received with product name, price, description, image, location, owner name, (reviews?),
@@ -19,7 +20,9 @@ import ItemForm from './AddItemForm';
 
 export default function MyItems (props) {
     const [items, setItems] = useState([])
-    const [editing, setEditing] = useState(true)
+    const [editing, setEditing] = useState(null)
+    const [editFormValue, setEditFormValue] = useState()
+
     const { setAllItems, allItems } = props;
     const user_id = localStorage.getItem('user_id')
 
@@ -35,8 +38,11 @@ export default function MyItems (props) {
       })
     }, []) 
 
+    const handleEdit = (e) => {
+        setEditing(e.target.value)
+        
+    }
     
-
     const editItem = (e) => {
         axiosWithAuth()
         .put(`/api/items/${user_id}/${e.target.value}`, {item_name: "newtest", item_price: "25", item_category: "camera", item_location: "mapleton"} )
@@ -52,6 +58,7 @@ export default function MyItems (props) {
             console.log(err)
         })
     }
+    
 
     const deleteItem = (e) => {
         axiosWithAuth()
@@ -74,7 +81,7 @@ export default function MyItems (props) {
 
     return (
         <div> 
-            <ItemForm setItems={setItems} items={items} user_id={user_id}/>
+            <ItemForm editing={editing} setEditing={setEditing} setItems={setItems} items={items} user_id={user_id}/>
             
             
             {items.map (item => (
@@ -91,7 +98,7 @@ export default function MyItems (props) {
                 <p>{item.item_category}</p>
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
-                <button onClick={editItem} value={item.item_id}>Edit Item</button>
+                <button onClick={handleEdit} value={item.item_id}>Edit Item</button>
                 <button onClick={deleteItem} value={item.item_id}>Delete Item</button>
                 </Cardmaker>
             ))}
