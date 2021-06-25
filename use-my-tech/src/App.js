@@ -8,8 +8,42 @@ import Rent from './Rent'
 import MyItems from './MyItems'
 import axios from 'axios'
 
-const initialRegistered = true
+const NavBar = styled.div `
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
 
+
+h1, h2, h3, h4, label {
+            font-family: 'Roboto', 'sans-serif';
+
+        }
+
+        p {
+            font-family: 'Source Serif Pro', 'serif';
+        }
+
+header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  padding: 4px;
+  margin: 2px;
+  background-color: #f5f2ed;
+  opacity: 60%;
+}
+
+.links {
+  margin: 5px;
+  padding: 4px;
+  background-color: transparent;
+  color: '#2f3357';
+  border-color: transparent;
+  &:hover {
+      font-weight: bold;
+  }
+}
+
+`
+const initialRegistered = true
 
 function App() {
   const [isRegistered, setIsRegistered] = useState(initialRegistered)
@@ -25,20 +59,25 @@ function App() {
     history.push('/')
   }
   return (
+      <NavBar>
     <div className="App">
       <header>
+        <div>
         <NavLink to='/rent'>
-          <button>Rent</button>
+          <button className='links'>Rent</button>
         </NavLink>
         <NavLink to='/my-items'>
-          <button>My Items</button>
+          <button className='links'>My Items</button>
         </NavLink>
         {/* <NavLink to='/cards'>
-          <button>Currently Rented Out</button>
+          <button className='links'>Currently Rented Out</button>
         </NavLink> */}
+        </div>
+        <div>
         <NavLink to='/login'>
-        {!loggedIn ? <button>Login</button> : <button onClick={logout}>Logout</button>}
+        {!loggedIn ? <button className='links'>Login</button> : <button className='links' onClick={logout}>Logout</button>}
       </NavLink>
+        </div>
       </header>
 
       <Switch>
@@ -56,6 +95,7 @@ function App() {
         </Route>
       </Switch>
     </div>
+        </NavBar>
   );
 }
 

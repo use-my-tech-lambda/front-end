@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import axiosWithAuth from './Utilities/AxiosAuth';
-import styled from "styled-components";
+import styled from 'styled-components';
 import ItemForm from './AddItemForm';
 // import EditItemForm from './EditItemForm';
+
 
 //receives an array of objects through props (changes based on which of the three buttons they click for rent, rent out, currently renting)
 //creates "cards" of each of the items received with product name, price, description, image, location, owner name, (reviews?),
@@ -16,6 +17,28 @@ import ItemForm from './AddItemForm';
 //Payments
 //Schedule
 
+const Card = styled.div `
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Source+Serif+Pro:wght@300&display=swap');
+
+    h1, h2, h3, h4, label {
+        font-family: 'Roboto', 'sans-serif';
+
+    }
+
+    p {
+        font-family: 'Source Serif Pro', 'serif';
+    }
+
+    img{
+        border-width: 2px;
+        border-color: #f5f2ed;
+    }
+    .item {
+        border-color: #2f3357;
+        border-radius: 5px;
+    }
+
+`
 
 
 export default function MyItems (props) {
@@ -80,28 +103,46 @@ export default function MyItems (props) {
     `
 
     return (
+
+        <Card>
+            <h2>My Items</h2>
+       
+            <h2>{user_id}</h2>
+            <button onClick={rentNow}>+ List new Item</button>
+
         <div> 
             <ItemForm editing={editing} setEditing={setEditing} setItems={setItems} items={items} user_id={user_id}/>
             
             
+
             {items.map (item => (
-                <Cardmaker
+            <div
                 key={item.item_id}
+
+                className='item'>
                 >
+                  
                 {item.item_image? <img
                 src={item.item_image}
                 alt={item.item_name}
                 /> : null}
+
                 <h4>{item.item_name}</h4>
                 <p>{item.item_description}</p>
                 <p>{item.item_price}</p>
                 <p>{item.item_category}</p>
                 <p>{item.item_location}</p>
                 <p>{item.item_owner}</p>
+
+                <button onClick={editItem} value={item.item_id}>Edit Item</button>
                 <button onClick={handleEdit} value={item.item_id}>Edit Item</button>
                 <button onClick={deleteItem} value={item.item_id}>Delete Item</button>
-                </Cardmaker>
+              </div>
+              
+
             ))}
-        </div>
+      
+      </Card>
     )
+
     }
