@@ -14,22 +14,37 @@ const initialForms = {
 
 export default function ItemForm(props){
 const [formValue, setFormValue] = useState(initialForms)
-const {setItems, items, user_id} = props;
+const {setItems, items, user_id, editing, setEditing} = props;
 
 
     const listItem = (e) => {
         e.preventDefault()
-        axiosWithAuth()
-        .post(`/api/items/user/${user_id}`, formValue)
-        .then(res => {
-            console.log(res)
-            setFormValue(initialForms)
-            setItems([res.data, ...items])
-            
-        })
-        .catch(err => {
-            console.log(err)
-        })
+
+        if(!editing){
+            axiosWithAuth()
+            .post(`/api/items/user/${user_id}`, formValue)
+            .then(res => {
+                console.log(res)
+                setFormValue(initialForms)
+                setItems([res.data, ...items])
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }else if(editing){
+            axiosWithAuth()
+            .post(`/api/items/user/${user_id}`, formValue)
+            .then(res => {
+                console.log(res)
+                setFormValue(initialForms)
+                setItems([res.data, ...items])
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
     }
 
     const onChange = (e) => {
@@ -79,7 +94,7 @@ const {setItems, items, user_id} = props;
                     />
                 </label>
                 <button>+ List new Item</button>
-            </form>
+            </form> 
     )
 }
 
